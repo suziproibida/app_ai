@@ -1,0 +1,400 @@
+---
+title: "Gerenciando grande bases de \n dados com R"
+author: "Suzana de Lima"
+date: "Setembro, 2021"
+output:
+ xaringan::moon_reader:
+    lib_dir: libs
+    css: [app]
+---
+class: middle
+
+.pull-left[
+.center[
+## Suzana de Lima
+]
+
+- Bacharel em Estatística;
+
+- Mestranda em Estatística;
+
+- Engenheira de Dados;
+
+- Churrasqueira nas horas vagas;
+
+- Coreografia completa de Violeira de Apache.
+ 
+]
+
+.pull-right[
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("foto.png")
+```
+
+]
+
+---
+class: middle
+
+.pull-left[
+.center[
+## Estrutura
+] 
+
+- Software R e base de dados
+
+- Conceitos básicos
+
+- Ambiente spark no RStudio
+
+- Aplicação
+ 
+]
+
+.pull-right[
+
+![Coding](https://media.giphy.com/media/kPrlykW2TpVU4HWx2O/giphy.gif?cid=ecf05e4788y4js9pnqgxzz7cabyuc5jk5rykc2rxgm0j8q53&rid=giphy.gif&ct=g)
+
+]
+
+---
+class: middle, center, inverse
+
+# O R e instalação dos pacotes
+
+---
+class: middle
+
+.center[
+# Software R 
+]
+
+.pull-left[
+
+- Linguagem de programação de alto nível;
+
+- Desenvolvido no departamento de Estatística da Universidade de Auckland, Nova Zelândia;
+
+- Ross Ihaka e Robert Gentleman;
+
+- As contribuições são feitas através de pacotes.
+]
+
+.pull-right[
+
+![logo](https://beatrizmilz.github.io/slidesR/git_rstudio/img/R_logo.svg.png)
+]
+
+---
+class: middle
+
+.center[
+# Software R 
+]
+
+.pull-left[
+
+- Rstudio é uma interface gráfica de usuário;
+
+- É mais bonitinho.
+]
+
+.pull-right[
+
+![logor](https://beatrizmilz.github.io/slidesR/git_rstudio/img/rstudio.png)
+]
+
+---
+class: middle
+.center[
+# Software R 
+]
+
+- Instalar o [RStudio](https://www.rstudio.com/products/rstudio/download/)
+
+  -  Necessita do [R](https://cran.fiocruz.br/) instalado
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+sessioninfo::session_info()$platform
+```
+
+---
+class: middle
+
+.center[
+# Instalação dos pacotes
+]
+
+- Pacotes necessários 
+
+  - Sparklyr
+  
+  - dplyr
+  
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+#install.packages("sparklyr")
+require(sparklyr)
+packageVersion("sparklyr")
+#install.packages("dplyr")
+require(dplyr)
+packageVersion("dplyr")
+```
+  
+---
+class: middle
+
+.center[
+# Base de dados
+]
+
+- [MovieLens 20M](https://www.kaggle.com/grouplens/movielens-20m-dataset?select=tag.csv);
+
+- 20 milhões de avaliações e 465.000 tags aplicadas a 27.000 filmes por 138.000 usuários;
+
+- Lançado em 04/15 e última atualização em 10/16
+
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("movie.png")
+```
+
+  
+---
+class: middle, center, inverse
+
+# Conceitos básicos
+
+---
+class: middle
+
+.center[
+# Analógico vs Digital
+]
+
+```{r, echo=FALSE, out.width="100%", fig.align='center', fig.cap="Capacidade mundial de armazenar informações"}
+knitr::include_graphics("analogico_digital.png")
+```
+
+  
+---
+class: middle
+
+.center[
+# O que são grandes bases de dados?
+]
+
+```{r, echo=FALSE, out.width="60%", fig.align='center'}
+knitr::include_graphics("tamanho_dos_dados.jpg")
+```
+
+---
+class: middle
+
+.center[
+# Informação por minuto
+]
+
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+knitr::include_graphics("internet_por_minuto.jpg")
+```
+
+---
+class: middle
+
+.center[
+# O que são grandes bases de dados?
+]
+
+- Big data são conjuntos de dados tão grandes e complexos que softwares tradicionais de processamento de dados são inadequados para manuseá-los ou analisá-los, (Zgurovsky e Zaychenko, 2020).
+
+- As principais características:
+
+    - Grande volume
+    
+    - Alta velocidade
+    
+    - Grande variedade
+    
+- [Fifty-Six Big Data V’s Characteristics and Proposed Strategies to Overcome Security and Privacy Challenges (BD2)](https://www.scirp.org/journal/paperinformation.aspx?paperid=103823)    
+    
+
+
+---
+class: middle
+
+.center[
+# Como trabalhar?
+]
+
+- Em 2003 o Google apresentou uma abordagem que ficou conhecida com **Google File System**;
+
+- Um ano depois lançou uma outra abordagem chamada **MapReduce** com duas operações, mapear e reduzir;
+
+- As duas operações são sufientes para processar todos os dados disponíveis na web.
+
+- Para trabalhar com big data, são necessárias ferramentas específicas como Hadoop, HBase e Mongo DB;
+
+---
+class: middle
+
+.center[
+# Hadoop
+]
+
+- Depois que esses artigos foram lançados pelo Google, uma equipe do **Yahoo** trabalhou na implementação do **Google File System** e do **MapReduce** como um único projeto de código aberto;
+
+- Este projeto foi lançado em 2006 como **Hadoop**, com o Google File System implementado como o **Hadoop Distributed File System (HDFS)**;
+
+- O projeto Hadoop tornou a computação baseada em arquivo distribuída acessível a uma ampla gama de usuários e organizações, tornando o MapReduce útil além do processamento de dados da web;
+
+- Em 2008 por meio do projeto **Hive** trouxe o suporte a **Structured Query Language (SQL)** para o **Hadoop**
+
+---
+class: middle
+
+.center[
+# Spark
+]
+
+- Foi criado em 2009 por causa das limitações das abordagens **MapReduce** e **HDFS**;
+
+- O **Spark** usa o Hadoop de duas maneiras - uma é o **armazenamento** e a segunda é o **processamento**;
+
+- Em 2013 foi doado para a **Apache Software Foundation**;
+
+- Recursos do Apache Spark:
+
+  - Velocidade: 100x mais rápido na memória e 10x mais rápido quando executado no disco em relação ao Hadoop;
+  
+  - Suporta várias linguagens: Suporta API integradas em Java, Scala, Python e R;
+  
+  - Análise avançada: Consultas SQL, aprendizado de máquina, gráficos e dados de streaming.  
+
+---
+class: middle
+
+.center[
+# Pacote Sparklyr
+]
+
+- O `sparklyr` é uma interface R para o Apache Spark, fornece um back-end compatível com `dplyr`;
+
+- Alguns destaques:
+  
+  - Filtrar e agregar conjuntos de dados do Spark e, em seguida, trazê-los para o R para análise e visualização;
+
+  - Usar a biblioteca de aprendizado de máquina distribuída do Spark no R;
+  
+  - Criar extensões que chamam a API Spark completa e forneçam interfaces para pacotes Spark.
+
+
+---
+class: middle
+
+.center[
+# back-end compatível com dplyr?
+]
+
+- Quando conectado a um Spark DataFrame, dplyr converte os comandos em instruções SQL do Spark.
+
+```{r echo=FALSE}
+verbo_dplyr <- c("select", "filter", "arrange", "summarise", "mutate")
+verbo_sql <- c("SELECT", "WHERE", "ORDER", "sum, min, sd, etc", "+, *, log, etc.")
+
+cbind("dplyr" = verbo_dplyr, "SQL" =verbo_sql) %>% 
+  knitr::kable()
+```
+- Livro do Curso R sobre o [dplyr](https://livro.curso-r.com/7-2-dplyr.html)
+
+---
+class: middle, center, inverse
+
+# Ambiente spark no RStudio
+
+
+---
+class: middle, center, inverse
+
+# Mãos na massa
+
+![Coding](https://media.giphy.com/media/ule4vhcY1xEKQ/giphy.gif?cid=ecf05e47jbzmnmcg4rm52nnhxke1g6vb47lb498yqhz7gspt&rid=giphy.gif&ct=g)
+
+---
+class: middle
+
+.center[
+# Primeiros passos
+]
+
+- Instalar o spark no computador
+
+  - Verificar se já tem 
+  
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+spark_installed_versions()
+```
+  
+
+---
+class: middle
+
+.center[
+# Primeiros passos
+]
+
+- Instalar o spark no computador
+
+  - Verificar a versão disponível
+  
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+spark_available_versions()
+```
+  
+---
+class: middle
+
+.center[
+# Primeiros passos
+]
+
+- Instalar o spark no computador
+
+  - Pegar a versão mais atual
+
+```{r eval=FALSE, include=TRUE}
+spark_install("3.1")
+```
+
+
+- Configurando o ambiente spark
+
+  - Vamos pro R :)
+
+---
+class: middle
+
+.center[
+# Lendo os dados
+]
+
+- `spark_read_csv`: lê um arquivo CSV;
+
+- `spark_read_json`: lê um arquivo JSON;
+
+- `spark_read_parquet`: lê um arquivo em parquet;
+
+---
+class: middle
+
+.center[
+# Referências e `help`
+]
+
+- [spark.rstudio](https://spark.rstudio.com/)
+
+- [Mastering Spark with R](https://therinspark.com/index.html)
+
+- [Apache Spark](http://spark.apache.org/)
+
+- [sparklyr: R Interface to Apache Spark](https://cran.r-project.org/web/packages/sparklyr/index.html)
